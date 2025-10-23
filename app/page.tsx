@@ -62,9 +62,14 @@ export default function Home() {
       <footer className="container mx-auto px-4 py-8 border-t">
         <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
           <p>&copy; {new Date().getFullYear()} Legacy. All rights reserved.</p>
-          <Link href="/privacy" className="hover:text-foreground transition-colors">
-            Privacy Policy
-          </Link>
+          <div className="flex gap-6">
+            <Link href="/privacy" className="hover:text-foreground transition-colors">
+              Privacy Policy
+            </Link>
+            <Link href="/support" className="hover:text-foreground transition-colors">
+              Support
+            </Link>
+          </div>
         </div>
       </footer>
     </div>
