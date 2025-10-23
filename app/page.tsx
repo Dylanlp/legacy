@@ -1,7 +1,7 @@
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { MapPin, Trophy, Route } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Home() {
   return (
@@ -9,9 +9,14 @@ export default function Home() {
       {/* Hero Section */}
       <section className="container mx-auto px-4 py-20 md:py-32">
         <div className="max-w-4xl mx-auto text-center space-y-6">
-          <Badge variant="secondary" className="mb-4">
-            iOS App
-          </Badge>
+          <Image
+            src="/appicon.png"
+            alt="Legacy App Icon"
+            width={80}
+            height={80}
+            className="mx-auto mb-6"
+            priority
+          />
           <h1 className="text-4xl md:text-6xl font-bold tracking-tight">
             Discover London&apos;s
             <br />
