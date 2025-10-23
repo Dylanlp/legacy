@@ -1,6 +1,7 @@
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { MapPin, Trophy, Route } from "lucide-react";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -56,6 +57,16 @@ export default function Home() {
           </Card>
         </div>
       </section>
+
+      {/* Footer */}
+      <footer className="container mx-auto px-4 py-8 border-t">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
+          <p>&copy; {new Date().getFullYear()} Legacy. All rights reserved.</p>
+          <Link href="/privacy" className="hover:text-foreground transition-colors">
+            Privacy Policy
+          </Link>
+        </div>
+      </footer>
     </div>
   );
 }
