@@ -43,7 +43,7 @@ export default function WikidataPortrait({ name, className }: Props) {
       src={imageUrl}
       alt={name}
       className={className}
-      style={{ borderRadius: '24px', cornerShape: 'round' }}
+      style={{ borderRadius: '24px' }}
     />
   )
 }

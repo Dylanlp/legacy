@@ -216,7 +216,7 @@ export default async function PlaquePage({ params }: Props) {
                   src={plaque.portraitImageURL}
                   alt={formattedName}
                   className="w-52 h-52 object-cover flex-shrink-0"
-                  style={{ borderRadius: '24px', cornerShape: 'round' }}
+                  style={{ borderRadius: '24px' }}
                 />
               )}
               {plaque.plaqueImageURL && (
@@ -224,7 +224,7 @@ export default async function PlaquePage({ params }: Props) {
                   src={plaque.plaqueImageURL}
                   alt="Blue Plaque"
                   className="w-52 h-52 object-cover flex-shrink-0"
-                  style={{ borderRadius: '24px', cornerShape: 'round' }}
+                  style={{ borderRadius: '24px' }}
                 />
               )}
               {plaque.siteImageURL && (
@@ -232,7 +232,7 @@ export default async function PlaquePage({ params }: Props) {
                   src={plaque.siteImageURL}
                   alt="Location"
                   className="w-52 h-52 object-cover flex-shrink-0"
-                  style={{ borderRadius: '24px', cornerShape: 'round' }}
+                  style={{ borderRadius: '24px' }}
                 />
               )}
             </div>
