@@ -1,11 +1,10 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { Button } from '@/components/ui/button'
 
 export default function Nav() {
   return (
     <nav className="border-b bg-white dark:bg-gray-900">
-      <div className="container max-w-4xl mx-auto px-4">
+      <div className="px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo/Brand */}
           <Link href="/" className="flex items-center gap-2">
@@ -29,11 +28,15 @@ export default function Nav() {
             >
               Plaques
             </Link>
-            <Button asChild size="sm">
-              <Link href="https://apps.apple.com/us/app/explore-london-legacy/id6754275366">
-                Download App
-              </Link>
-            </Button>
+            <Link href="https://apps.apple.com/us/app/explore-london-legacy/id6754275366">
+              <Image
+                src="/app-store-badge.svg"
+                alt="Download on the App Store"
+                width={120}
+                height={40}
+                className="hover:opacity-80 transition-opacity"
+              />
+            </Link>
           </div>
         </div>
       </div>

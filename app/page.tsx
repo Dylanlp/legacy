@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
-      <section className="container max-w-4xl mx-auto px-4 py-20 md:py-32">
+      <section className="px-4 py-20 md:py-32">
         <div className="text-center space-y-6">
           <Image
             src="/appicon.png"
@@ -29,7 +29,7 @@ export default function Home() {
       </section>
 
       {/* Features Section */}
-      <section className="container max-w-4xl mx-auto px-4 py-16">
+      <section className="px-4 py-16">
         <div className="grid md:grid-cols-3 gap-6">
           <Card>
             <CardHeader>
