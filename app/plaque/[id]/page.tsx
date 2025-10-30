@@ -50,6 +50,13 @@ async function getPlaqueData(id: string): Promise<Plaque | null> {
     const basePlaque = basePlaques.find((p: any) => String(p.id) === id)
     if (!basePlaque) return null
 
+    // Filter for Central London only (lat 51.48-51.54, lon -0.18 to -0.08)
+    const lat = basePlaque.latitude
+    const lon = basePlaque.longitude
+    if (!lat || !lon || lat < 51.48 || lat > 51.54 || lon < -0.18 || lon > -0.08) {
+      return null
+    }
+
     // Find enrichment data if it exists
     const enrichment = enrichments.find((e: any) => e.id === id || e.plaqueId === id)
 

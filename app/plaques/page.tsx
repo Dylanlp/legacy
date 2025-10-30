@@ -49,8 +49,15 @@ async function getAllPlaques(): Promise<Plaque[]> {
     const basePlaques = JSON.parse(baseData)
     const enrichments = JSON.parse(enrichedData)
 
+    // Filter for Central London plaques (lat 51.48-51.54, lon -0.18 to -0.08)
+    const londonPlaques = basePlaques.filter((p: any) => {
+      const lat = p.latitude
+      const lon = p.longitude
+      return lat && lon && lat >= 51.48 && lat <= 51.54 && lon >= -0.18 && lon <= -0.08
+    })
+
     // Merge plaques with enrichments
-    const plaques = basePlaques.slice(0, 100).map((basePlaque: any) => {
+    const plaques = londonPlaques.slice(0, 100).map((basePlaque: any) => {
       const enrichment = enrichments.find((e: any) =>
         e.id === String(basePlaque.id) || e.plaqueId === String(basePlaque.id)
       )
@@ -94,12 +101,9 @@ export default async function PlaquesIndexPage() {
       <div className="px-4 py-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">
+          <h1 className="text-4xl font-bold text-gray-900">
             London Blue Plaques
           </h1>
-          <p className="text-gray-600">
-            Explore {plaques.length}+ blue plaques across London
-          </p>
         </div>
 
         {/* Grid */}
@@ -134,7 +138,7 @@ export default async function PlaquesIndexPage() {
 
                   {/* Content */}
                   <div className="p-4">
-                    <h3 className="font-semibold text-gray-900 text-lg line-clamp-2 mb-1">
+                    <h3 className="font-semibold text-gray-900 text-base line-clamp-2 mb-1">
                       {formattedName}
                     </h3>
                     {plaque.profession && (
