@@ -153,7 +153,7 @@ export default async function PlaquePage({ params }: Props) {
 
   if (!plaque) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      <div className="min-h-screen">
         <div className="px-4 py-16">
           <div className="text-center space-y-8">
             <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
@@ -181,7 +181,7 @@ export default async function PlaquePage({ params }: Props) {
     : plaque.year
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen">
       <div className="px-4 py-8">
         <div className="space-y-6">
           {/* Header */}

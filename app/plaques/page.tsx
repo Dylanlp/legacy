@@ -90,7 +90,7 @@ export default async function PlaquesIndexPage() {
   const plaques = await getAllPlaques()
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen">
       <div className="px-4 py-8">
         {/* Header */}
         <div className="mb-8">
