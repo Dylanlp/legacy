@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="px-4 py-20 md:py-32">
+      <section className="px-4 py-12 md:py-20">
         <div className="text-center space-y-6">
           <Image
             src="/appicon.png"
@@ -22,18 +22,28 @@ export default function Home() {
             <br />
             Hidden History
           </h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto text-balance">
             Explore and collect 2000+ Blue Plaques across London. Turn your walks and runs into historical adventures.
           </p>
+          <div className="pt-2">
+            <Link href="https://apps.apple.com/us/app/explore-london-legacy/id6754275366">
+              <Image
+                src="/app-store-badge.svg"
+                alt="Download on the App Store"
+                width={160}
+                height={53}
+                className="mx-auto hover:opacity-80 transition-opacity"
+              />
+            </Link>
+          </div>
         </div>
       </section>
 
       {/* Features Section */}
-      <section className="px-4 py-16">
-        <div className="grid md:grid-cols-3 gap-6">
-          <Card>
+      <section className="px-4 py-8 md:py-12">
+        <div className="grid md:grid-cols-3 gap-4">
+          <Card className="border-0">
             <CardHeader>
-              <MapPin className="h-10 w-10 mb-2 text-primary" />
               <CardTitle>Interactive Map</CardTitle>
               <CardDescription>
                 Browse 2000+ Blue Plaques across London with real-time location tracking and proximity alerts
@@ -41,9 +51,8 @@ export default function Home() {
             </CardHeader>
           </Card>
 
-          <Card>
+          <Card className="border-0">
             <CardHeader>
-              <Trophy className="h-10 w-10 mb-2 text-primary" />
               <CardTitle>Collect & Track</CardTitle>
               <CardDescription>
                 Automatically collect plaques when you&apos;re within 30 meters. Track your progress and discover new historical figures
@@ -51,9 +60,8 @@ export default function Home() {
             </CardHeader>
           </Card>
 
-          <Card>
+          <Card className="border-0">
             <CardHeader>
-              <Route className="h-10 w-10 mb-2 text-primary" />
               <CardTitle>Running Routes</CardTitle>
               <CardDescription>
                 Generate 5K or 10K routes that guide you through nearby unvisited plaques. History meets fitness

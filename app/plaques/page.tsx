@@ -18,6 +18,7 @@ type Plaque = {
   plaqueImageURL?: string
   siteImageURL?: string
   portraitImageURL?: string
+  wikidataProfileImage?: string
   biography?: string
   keyFacts?: string[]
   funFacts?: string[]
@@ -107,7 +108,7 @@ export default async function PlaquesIndexPage() {
         </div>
 
         {/* Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-2 gap-6">
           {plaques.map((plaque) => {
             const formattedName = formatName(plaque.title)
             const lifespan = (plaque.birthYear && plaque.deathYear)
@@ -122,16 +123,16 @@ export default async function PlaquesIndexPage() {
               >
                 <div className="bg-white rounded-2xl overflow-hidden transition-all transform hover:scale-105">
                   {/* Image */}
-                  {(plaque.portraitImageURL || plaque.plaqueImageURL) && (
+                  {(plaque.wikidataProfileImage || plaque.portraitImageURL || plaque.plaqueImageURL) && (
                     <div className="aspect-square bg-gray-200 relative overflow-hidden">
                       <img
-                        src={plaque.portraitImageURL || plaque.plaqueImageURL || ''}
+                        src={plaque.wikidataProfileImage || plaque.portraitImageURL || plaque.plaqueImageURL || ''}
                         alt={formattedName}
                         className="w-full h-full object-cover"
                       />
                     </div>
                   )}
-                  {!(plaque.portraitImageURL || plaque.plaqueImageURL) && (
+                  {!(plaque.wikidataProfileImage || plaque.portraitImageURL || plaque.plaqueImageURL) && (
                     <div className="aspect-square bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center">
                     </div>
                   )}
