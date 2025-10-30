@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button'
 export default function Nav() {
   return (
     <nav className="border-b bg-white dark:bg-gray-900">
-      <div className="container max-w-7xl mx-auto px-4">
+      <div className="container max-w-4xl mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo/Brand */}
           <Link href="/" className="flex items-center gap-2">
