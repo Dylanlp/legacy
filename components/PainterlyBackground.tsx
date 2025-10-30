@@ -9,11 +9,12 @@ export default function PainterlyBackground() {
     const canvas = canvasRef.current
     if (!canvas) return
 
-    const gl = canvas.getContext('webgl2')
-    if (!gl) {
+    const glContext = canvas.getContext('webgl2')
+    if (!glContext) {
       console.error('WebGL2 not supported')
       return
     }
+    const gl = glContext
 
     // Set canvas size
     const resize = () => {
