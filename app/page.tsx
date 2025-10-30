@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
-      <section className="container mx-auto px-4 py-20 md:py-32">
+      <section className="container max-w-7xl mx-auto px-4 py-20 md:py-32">
         <div className="max-w-4xl mx-auto text-center space-y-6">
           <Image
             src="/appicon.png"
@@ -29,7 +29,7 @@ export default function Home() {
       </section>
 
       {/* Features Section */}
-      <section className="container mx-auto px-4 py-16">
+      <section className="container max-w-7xl mx-auto px-4 py-16">
         <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
           <Card>
             <CardHeader>
@@ -64,7 +64,7 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="container mx-auto px-4 py-8 border-t">
+      <footer className="container max-w-7xl mx-auto px-4 py-8 border-t">
         <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
           <p>&copy; {new Date().getFullYear()} Legacy. All rights reserved.</p>
           <div className="flex gap-6">

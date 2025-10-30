@@ -154,7 +154,7 @@ export default async function PlaquePage({ params }: Props) {
   if (!plaque) {
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-        <div className="container mx-auto px-4 py-16 max-w-2xl">
+        <div className="container max-w-7xl mx-auto px-4 py-16">
           <div className="text-center space-y-8">
             <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
               Plaque Not Found
@@ -182,7 +182,7 @@ export default async function PlaquePage({ params }: Props) {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <div className="container mx-auto px-4 py-8 max-w-2xl">
+      <div className="container max-w-2xl mx-auto px-4 py-8">
         <div className="space-y-6">
           {/* Header */}
           <div className="text-center space-y-2">
