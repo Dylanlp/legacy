@@ -133,7 +133,7 @@ export default async function PlaquesIndexPage() {
                     </div>
                   )}
                   {!(plaque.wikidataProfileImage || plaque.portraitImageURL || plaque.plaqueImageURL) && (
-                    <div className="aspect-square bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center">
+                    <div className="aspect-square bg-accent flex items-center justify-center">
                     </div>
                   )}
 
@@ -172,7 +172,7 @@ export default async function PlaquesIndexPage() {
             </Link>
           </Button>
           <p className="text-sm text-gray-500 mt-4">
-            Explore all 2,000+ plaques on the go
+            Explore all 1,625+ plaques on the go
           </p>
         </div>
       </div>

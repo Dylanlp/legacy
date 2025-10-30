@@ -167,7 +167,7 @@ export default async function PlaquePage({ params }: Props) {
               Plaque Not Found
             </h1>
             <p className="text-lg text-gray-600">
-              Explore 2,000+ London blue plaques with the Legacy app.
+              Explore 1,625+ London blue plaques with the Legacy app.
             </p>
             <Link
               href="https://apps.apple.com/us/app/explore-london-legacy/id6754275366"

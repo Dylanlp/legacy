@@ -9,11 +9,12 @@ export default function CloudySkyBackground() {
     const canvas = canvasRef.current
     if (!canvas) return
 
-    const gl = canvas.getContext('webgl2')
-    if (!gl) {
+    const glContext = canvas.getContext('webgl2')
+    if (!glContext) {
       console.error('WebGL2 not supported')
       return
     }
+    const gl = glContext
 
     // Set canvas size
     const resize = () => {
@@ -108,8 +109,8 @@ export default function CloudySkyBackground() {
       // Sky gradient colors
       vec3 getSkyColor(vec2 uv) {
         // Sky blue gradient (lighter at horizon, deeper blue at top)
-        vec3 topColor = vec3(0.4, 0.5, 0.7);      // Deep blue
-        vec3 horizonColor = vec3(0.7, 0.75, 0.85); // Light blue
+        vec3 topColor = vec3(0.45, 0.55, 0.75);      // Deep blue
+        vec3 horizonColor = vec3(0.75, 0.8, 0.88); // Light blue
 
         // Gradient from bottom to top
         float gradient = smoothstep(0.0, 0.7, uv.y);
@@ -137,30 +138,40 @@ export default function CloudySkyBackground() {
         // Slow time for gentle cloud movement
         float t = uTime * 0.1;
 
-        // Generate clouds at different scales for depth
-        float scale1 = 2.0;
-        float scale2 = 3.5;
-
-        float cloud1 = clouds(p * scale1, t);
-        float cloud2 = clouds(p * scale2, t * 0.7) * 0.6;
-
-        // Combine cloud layers
-        float cloudDensity = cloud1 + cloud2 * 0.5;
-        cloudDensity = smoothstep(0.3, 0.9, cloudDensity);
-
-        // Get sky and cloud colors
+        // Get solid sky color
         vec3 skyColor = getSkyColor(uv);
-        vec3 cloudColor = getCloudColor(cloudDensity, p);
 
-        // Mix sky and clouds
-        vec3 finalColor = mix(skyColor, cloudColor, cloudDensity * 0.8);
+        // Only render big puffy clouds in bottom half
+        float puffyClouds = 0.0;
+        if (uv.y < 0.6) {
+          // Create big puffy clouds
+          vec2 cloudP = p;
+          cloudP.y += 0.5; // Shift down
 
-        // Add subtle atmospheric haze
-        float haze = (1.0 - uv.y) * 0.1;
+          // Multiple cloud layers for puffiness
+          float bigCloud1 = clouds(cloudP * 1.2, t * 0.9);
+          float bigCloud2 = clouds(cloudP * 1.8, t * 0.7);
+          float bigCloud3 = clouds(cloudP * 2.4, t * 0.5);
+
+          puffyClouds = bigCloud1 * 0.7 + bigCloud2 * 0.5 + bigCloud3 * 0.3;
+          puffyClouds = smoothstep(0.2, 0.9, puffyClouds);
+
+          // Fade clouds smoothly at the top edge
+          puffyClouds *= smoothstep(0.65, 0.4, uv.y);
+        }
+
+        // Pure white color for puffy clouds
+        vec3 whiteCloudColor = vec3(0.98, 0.99, 1.0);
+
+        // Start with solid sky, blend in puffy clouds
+        vec3 finalColor = mix(skyColor, whiteCloudColor, puffyClouds * 0.92);
+
+        // Add subtle atmospheric haze near horizon
+        float haze = (1.0 - uv.y) * 0.08;
         finalColor += vec3(haze);
 
-        // Output with transparency
-        fragColor = vec4(finalColor, 0.62);
+        // Output with full opacity
+        fragColor = vec4(finalColor, 1.0);
       }
     `
 
