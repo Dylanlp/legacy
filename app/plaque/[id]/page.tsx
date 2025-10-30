@@ -201,8 +201,6 @@ export default async function PlaquePage({ params }: Props) {
             )}
           </div>
 
-          <div className="border-t border-gray-200"></div>
-
           {/* Images - Horizontal Scroll */}
           <div className="overflow-x-auto">
             <div className="flex gap-3 pb-2">
