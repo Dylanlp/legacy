@@ -129,7 +129,6 @@ export default async function PlaquesIndexPage() {
                   )}
                   {!(plaque.portraitImageURL || plaque.plaqueImageURL) && (
                     <div className="aspect-square bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center">
-                      <span className="text-6xl text-white opacity-50">📍</span>
                     </div>
                   )}
 

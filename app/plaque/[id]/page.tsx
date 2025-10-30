@@ -250,12 +250,9 @@ export default async function PlaquePage({ params }: Props) {
           {/* Location Story */}
           {plaque.locationStory && (
             <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 space-y-3">
-              <div className="flex items-center gap-2">
-                <span className="text-orange-500">📍</span>
-                <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
-                  Connection to This Location
-                </h2>
-              </div>
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+                Connection to This Location
+              </h2>
               <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
                 {plaque.locationStory.length > 300
                   ? plaque.locationStory.slice(0, 300) + '...'
