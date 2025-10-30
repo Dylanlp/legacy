@@ -5,16 +5,16 @@ import Image from "next/image";
 
 export default function Home() {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen relative">
       {/* Hero Section */}
-      <section className="px-4 py-12 md:py-20">
-        <div className="text-center space-y-6">
+      <section className="px-4 py-10 md:py-16 relative z-10">
+        <div className="text-center space-y-5">
           <Image
             src="/appicon.png"
             alt="Legacy App Icon"
             width={80}
             height={80}
-            className="mx-auto mb-6"
+            className="mx-auto mb-4"
             priority
           />
           <h1 className="text-4xl md:text-6xl font-bold tracking-tight">
@@ -23,30 +23,28 @@ export default function Home() {
             Hidden History
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto text-balance">
-            Explore and collect 2000+ Blue Plaques across London. Turn your walks and runs into historical adventures.
+            Explore and collect 1,625+ Blue Plaques across London. Turn your walks and runs into historical adventures.
           </p>
-          <div className="pt-2">
-            <Link href="https://apps.apple.com/us/app/explore-london-legacy/id6754275366">
-              <Image
-                src="/app-store-badge.svg"
-                alt="Download on the App Store"
-                width={160}
-                height={53}
-                className="mx-auto hover:opacity-80 transition-opacity"
-              />
-            </Link>
-          </div>
+          <Link href="https://apps.apple.com/us/app/explore-london-legacy/id6754275366">
+            <Image
+              src="/app-store-badge.svg"
+              alt="Download on the App Store"
+              width={160}
+              height={53}
+              className="mx-auto hover:opacity-80 transition-opacity"
+            />
+          </Link>
         </div>
       </section>
 
       {/* Features Section */}
-      <section className="px-4 py-8 md:py-12">
+      <section className="px-4 py-6 md:py-10 relative z-10">
         <div className="grid md:grid-cols-3 gap-4">
           <Card className="border-0">
             <CardHeader>
               <CardTitle>Interactive Map</CardTitle>
               <CardDescription>
-                Browse 2000+ Blue Plaques across London with real-time location tracking and proximity alerts
+                Browse 1,625+ Blue Plaques across London with real-time location tracking and proximity alerts
               </CardDescription>
             </CardHeader>
           </Card>
