@@ -2,6 +2,7 @@ import { Metadata } from 'next'
 import Link from 'next/link'
 import fs from 'fs'
 import path from 'path'
+import WikidataPortrait from './WikidataPortrait'
 
 type Props = {
   params: Promise<{ id: string }>
@@ -10,10 +11,10 @@ type Props = {
 type Plaque = {
   id: string
   plaqueId?: string
-  title: string
-  subtitle: string
-  latitude: number
-  longitude: number
+  title?: string
+  subtitle?: string
+  latitude?: number
+  longitude?: number
   url?: string
   year?: string
   inscriptionOnly?: string
@@ -31,15 +32,56 @@ type Plaque = {
   locationStory?: string
 }
 
-// Helper function to read plaque data
+// Helper function to read plaque data (merges base data with enrichments)
 async function getPlaqueData(id: string): Promise<Plaque | null> {
   try {
-    const filePath = path.join(process.cwd(), 'public', 'data', 'plaques.json')
-    const fileContents = fs.readFileSync(filePath, 'utf8')
-    const plaques: Plaque[] = JSON.parse(fileContents)
+    // Load both data files
+    const basePath = path.join(process.cwd(), 'public', 'data', 'openplaques_uk.json')
+    const enrichedPath = path.join(process.cwd(), 'public', 'data', 'plaques.json')
 
-    const plaque = plaques.find((p) => p.id === id || p.plaqueId === id)
-    return plaque || null
+    const baseData = fs.readFileSync(basePath, 'utf8')
+    const enrichedData = fs.readFileSync(enrichedPath, 'utf8')
+
+    const basePlaques = JSON.parse(baseData)
+    const enrichments = JSON.parse(enrichedData)
+
+    // Find the base plaque
+    const basePlaque = basePlaques.find((p: any) => String(p.id) === id)
+    if (!basePlaque) return null
+
+    // Find enrichment data if it exists
+    const enrichment = enrichments.find((e: any) => e.id === id || e.plaqueId === id)
+
+    // Extract photos from OpenPlaques data
+    const photos = basePlaque.photos || []
+    const plaquePhoto = photos.find((p: any) =>
+      p.shot_name?.toLowerCase().includes('plaque') ||
+      p.shot_name?.toLowerCase().includes('close')
+    )
+    const sitePhoto = photos.find((p: any) =>
+      p.shot_name?.toLowerCase().includes('establish') ||
+      p.shot_name?.toLowerCase().includes('building') ||
+      p.shot_name?.toLowerCase().includes('long')
+    )
+
+    // Merge data (enrichment overrides base, but only if enrichment value exists)
+    const merged: Plaque = {
+      id: String(basePlaque.id),
+      title: basePlaque.title,
+      subtitle: basePlaque.inscription || basePlaque.address,
+      latitude: basePlaque.latitude,
+      longitude: basePlaque.longitude,
+      url: basePlaque.uri,
+      addressOnly: basePlaque.address,
+      inscriptionOnly: basePlaque.inscription,
+      // Add OpenPlaques photos if enriched versions don't exist
+      plaqueImageURL: enrichment?.plaqueImageURL || plaquePhoto?.thumbnail_url,
+      siteImageURL: enrichment?.siteImageURL || sitePhoto?.thumbnail_url || photos[0]?.thumbnail_url,
+      // Add enriched data if available (this will override the above if enrichment has these fields)
+      ...enrichment
+    }
+
+    return merged
   } catch (error) {
     console.error('Error reading plaque data:', error)
     return null
@@ -47,7 +89,9 @@ async function getPlaqueData(id: string): Promise<Plaque | null> {
 }
 
 // Helper function to format name (capitalize properly)
-function formatName(name: string): string {
+function formatName(name: string | undefined): string {
+  if (!name) return 'Unknown'
+
   if (name.includes(',')) {
     const [lastName, firstName] = name.split(',').map(s => s.trim())
     return `${firstName} ${lastName}`
@@ -108,34 +152,21 @@ export default async function PlaquePage({ params }: Props) {
 
   if (!plaque) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white dark:from-gray-900 dark:to-gray-800">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
         <div className="container mx-auto px-4 py-16 max-w-2xl">
           <div className="text-center space-y-8">
-            <div className="flex justify-center">
-              <div className="w-24 h-24 bg-blue-600 rounded-3xl shadow-2xl flex items-center justify-center">
-                <svg className="w-14 h-14 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                </svg>
-              </div>
-            </div>
-
-            <div className="space-y-4">
-              <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
-                Plaque Not Found
-              </h1>
-              <p className="text-lg text-gray-600 dark:text-gray-300">
-                Explore 2,000+ London blue plaques with the Legacy app.
-              </p>
-            </div>
-
-            <div className="pt-4">
-              <Link
-                href="https://apps.apple.com/us/app/explore-london-legacy/id6754275366"
-                className="inline-block px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl shadow-lg transition-all transform hover:scale-105"
-              >
-                Download Legacy App
-              </Link>
-            </div>
+            <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
+              Plaque Not Found
+            </h1>
+            <p className="text-lg text-gray-600 dark:text-gray-300">
+              Explore 2,000+ London blue plaques with the Legacy app.
+            </p>
+            <Link
+              href="https://apps.apple.com/us/app/explore-london-legacy/id6754275366"
+              className="inline-block px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl shadow-lg transition-all transform hover:scale-105"
+            >
+              Download Legacy App
+            </Link>
           </div>
         </div>
       </div>
@@ -149,138 +180,164 @@ export default async function PlaquePage({ params }: Props) {
     : plaque.year
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white dark:from-gray-900 dark:to-gray-800">
-      <div className="container mx-auto px-4 py-16 max-w-4xl">
-        <div className="space-y-8">
-          {/* App Icon */}
-          <div className="flex justify-center">
-            <div className="w-24 h-24 bg-blue-600 rounded-3xl shadow-2xl flex items-center justify-center">
-              <svg className="w-14 h-14 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-              </svg>
-            </div>
-          </div>
-
-          {/* Plaque Info */}
-          <div className="text-center space-y-4">
-            <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      <div className="container mx-auto px-4 py-8 max-w-2xl">
+        <div className="space-y-6">
+          {/* Header */}
+          <div className="text-center space-y-2">
+            <h1 className="text-3xl font-semibold text-gray-900 dark:text-white">
               {formattedName}
             </h1>
             {plaque.profession && (
-              <p className="text-xl text-gray-700 dark:text-gray-300">
+              <p className="text-lg text-blue-600 dark:text-blue-400">
                 {plaque.profession}
               </p>
             )}
             {lifespan && (
-              <p className="text-lg text-gray-600 dark:text-gray-400">
+              <p className="text-sm text-gray-600 dark:text-gray-400">
                 {lifespan}
               </p>
             )}
-            <p className="text-lg text-gray-600 dark:text-gray-400">
-              {address}
-            </p>
           </div>
 
-          {/* Portrait Image */}
-          {plaque.portraitImageURL && (
-            <div className="flex justify-center">
-              <img
-                src={plaque.portraitImageURL}
-                alt={formattedName}
-                className="w-64 h-64 object-cover rounded-2xl shadow-lg"
+          <div className="border-t border-gray-200 dark:border-gray-700"></div>
+
+          {/* Images - Horizontal Scroll */}
+          <div className="overflow-x-auto">
+            <div className="flex gap-3 pb-2">
+              {/* Wikidata Portrait - First Image */}
+              <WikidataPortrait
+                name={plaque.title || 'Unknown'}
+                className="w-52 h-52 object-cover flex-shrink-0"
               />
-            </div>
-          )}
-
-          {/* Location Story */}
-          {plaque.locationStory && (
-            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
-              <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
-                About This Location
-              </h2>
-              <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-                {plaque.locationStory}
-              </p>
-            </div>
-          )}
-
-          {/* Plaque Images */}
-          {(plaque.plaqueImageURL || plaque.siteImageURL) && (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {plaque.portraitImageURL && (
+                <img
+                  src={plaque.portraitImageURL}
+                  alt={formattedName}
+                  className="w-52 h-52 object-cover flex-shrink-0"
+                  style={{ borderRadius: '24px', cornerShape: 'round' }}
+                />
+              )}
               {plaque.plaqueImageURL && (
-                <div className="space-y-2">
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white text-center">
-                    The Plaque
-                  </h3>
-                  <img
-                    src={plaque.plaqueImageURL}
-                    alt="Blue Plaque"
-                    className="w-full h-64 object-cover rounded-lg shadow-md"
-                  />
-                </div>
+                <img
+                  src={plaque.plaqueImageURL}
+                  alt="Blue Plaque"
+                  className="w-52 h-52 object-cover flex-shrink-0"
+                  style={{ borderRadius: '24px', cornerShape: 'round' }}
+                />
               )}
               {plaque.siteImageURL && (
-                <div className="space-y-2">
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white text-center">
-                    The Location
-                  </h3>
-                  <img
-                    src={plaque.siteImageURL}
-                    alt="Location"
-                    className="w-full h-64 object-cover rounded-lg shadow-md"
-                  />
-                </div>
+                <img
+                  src={plaque.siteImageURL}
+                  alt="Location"
+                  className="w-52 h-52 object-cover flex-shrink-0"
+                  style={{ borderRadius: '24px', cornerShape: 'round' }}
+                />
               )}
             </div>
-          )}
+          </div>
 
-          {/* CTA Button */}
-          <div className="text-center pt-4">
+          {/* Open in App CTA */}
+          <div className="text-center">
             <Link
-              href="https://apps.apple.com/us/app/explore-london-legacy/id6754275366"
+              href={`legacy://plaque/${id}`}
               className="inline-block px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl shadow-lg transition-all transform hover:scale-105"
             >
-              Explore More in the Legacy App
+              Open in Legacy App
             </Link>
           </div>
 
-          {/* Features */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-8">
-            <div className="p-6 bg-white dark:bg-gray-800 rounded-xl shadow-md text-center">
-              <div className="text-3xl mb-2">🗺️</div>
-              <h3 className="font-semibold text-gray-900 dark:text-white mb-1">
-                Explore
-              </h3>
-              <p className="text-sm text-gray-600 dark:text-gray-300">
-                Find 2,000+ blue plaques on an interactive map
+          {/* Location Story */}
+          {plaque.locationStory && (
+            <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 space-y-3">
+              <div className="flex items-center gap-2">
+                <span className="text-orange-500">📍</span>
+                <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+                  Connection to This Location
+                </h2>
+              </div>
+              <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+                {plaque.locationStory.length > 300
+                  ? plaque.locationStory.slice(0, 300) + '...'
+                  : plaque.locationStory}
               </p>
             </div>
+          )}
 
-            <div className="p-6 bg-white dark:bg-gray-800 rounded-xl shadow-md text-center">
-              <div className="text-3xl mb-2">⭐</div>
-              <h3 className="font-semibold text-gray-900 dark:text-white mb-1">
-                Collect
-              </h3>
-              <p className="text-sm text-gray-600 dark:text-gray-300">
-                Visit plaques and build your collection
+          {/* Key Facts */}
+          {plaque.keyFacts && plaque.keyFacts.length > 0 && (
+            <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 space-y-4">
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+                Key Facts
+              </h2>
+              <div className="space-y-3">
+                {plaque.keyFacts.slice(0, 3).map((fact, index) => (
+                  <div key={index} className="flex gap-2">
+                    <span className="text-blue-500 mt-1">✓</span>
+                    <p className="text-gray-700 dark:text-gray-300 flex-1">{fact}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Fun Facts */}
+          {plaque.funFacts && plaque.funFacts.length > 0 && (
+            <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 space-y-4">
+              <div className="flex items-center gap-2">
+                <span className="text-yellow-500">✨</span>
+                <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+                  Did You Know?
+                </h2>
+              </div>
+              <div className="space-y-3">
+                {plaque.funFacts.slice(0, 3).map((fact, index) => (
+                  <div key={index} className="flex gap-2">
+                    <span className="text-yellow-600 dark:text-yellow-400 font-semibold">
+                      {index + 1}.
+                    </span>
+                    <p className="text-gray-700 dark:text-gray-300 flex-1">{fact}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Biography */}
+          {plaque.biography && (
+            <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 space-y-3">
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+                About
+              </h2>
+              <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+                {plaque.biography.length > 400
+                  ? plaque.biography.slice(0, 400) + '...'
+                  : plaque.biography}
               </p>
             </div>
+          )}
 
-            <div className="p-6 bg-white dark:bg-gray-800 rounded-xl shadow-md text-center">
-              <div className="text-3xl mb-2">🏃</div>
-              <h3 className="font-semibold text-gray-900 dark:text-white mb-1">
-                Run
-              </h3>
-              <p className="text-sm text-gray-600 dark:text-gray-300">
-                Create running routes to visit historic landmarks
-              </p>
+          {/* Address & Inscription */}
+          {(plaque.addressOnly || plaque.inscriptionOnly) && (
+            <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 space-y-3">
+              {plaque.addressOnly && (
+                <div>
+                  <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400 mb-1">
+                    Location
+                  </h3>
+                  <p className="text-gray-900 dark:text-white">{plaque.addressOnly}</p>
+                </div>
+              )}
+              {plaque.inscriptionOnly && (
+                <div>
+                  <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400 mb-1">
+                    Inscription
+                  </h3>
+                  <p className="text-gray-900 dark:text-white italic">{plaque.inscriptionOnly}</p>
+                </div>
+              )}
             </div>
-          </div>
-
-          {/* Footer Note */}
-          <p className="text-sm text-gray-500 dark:text-gray-400 text-center pt-8">
-            If you have the Legacy app installed, this link will open automatically.
-          </p>
+          )}
         </div>
       </div>
     </div>
