@@ -276,9 +276,10 @@ function md5Hash(str: string): string {
   }
 
   function hex(x: number[]) {
+    const hexStrings: string[] = []
     for (let i = 0; i < x.length; i++)
-      x[i] = rhex(x[i])
-    return x.join('')
+      hexStrings.push(rhex(x[i]))
+    return hexStrings.join('')
   }
 
   return hex(md51(str))
