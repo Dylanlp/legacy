@@ -50,7 +50,7 @@ export default async function PlaquePage({ params }: Props) {
           {/* CTA Button */}
           <div className="pt-4">
             <Link
-              href="https://apps.apple.com/app/legacy"
+              href="https://apps.apple.com/us/app/explore-london-legacy/id6754275366"
               className="inline-block px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl shadow-lg transition-all transform hover:scale-105"
             >
               Download Legacy App
