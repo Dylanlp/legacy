@@ -156,10 +156,10 @@ export default async function PlaquePage({ params }: Props) {
       <div className="min-h-screen">
         <div className="px-4 py-16">
           <div className="text-center space-y-8">
-            <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
+            <h1 className="text-4xl font-bold text-gray-900">
               Plaque Not Found
             </h1>
-            <p className="text-lg text-gray-600 dark:text-gray-300">
+            <p className="text-lg text-gray-600">
               Explore 2,000+ London blue plaques with the Legacy app.
             </p>
             <Link
@@ -186,22 +186,22 @@ export default async function PlaquePage({ params }: Props) {
         <div className="space-y-6">
           {/* Header */}
           <div className="text-center space-y-2">
-            <h1 className="text-3xl font-semibold text-gray-900 dark:text-white">
+            <h1 className="text-3xl font-semibold text-gray-900">
               {formattedName}
             </h1>
             {plaque.profession && (
-              <p className="text-lg text-blue-600 dark:text-blue-400">
+              <p className="text-lg text-blue-600">
                 {plaque.profession}
               </p>
             )}
             {lifespan && (
-              <p className="text-sm text-gray-600 dark:text-gray-400">
+              <p className="text-sm text-gray-600">
                 {lifespan}
               </p>
             )}
           </div>
 
-          <div className="border-t border-gray-200 dark:border-gray-700"></div>
+          <div className="border-t border-gray-200"></div>
 
           {/* Images - Horizontal Scroll */}
           <div className="overflow-x-auto">
@@ -249,11 +249,11 @@ export default async function PlaquePage({ params }: Props) {
 
           {/* Location Story */}
           {plaque.locationStory && (
-            <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 space-y-3">
-              <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+            <div className="bg-white rounded-2xl p-6 space-y-3">
+              <h2 className="text-lg font-semibold text-gray-900">
                 Connection to This Location
               </h2>
-              <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+              <p className="text-gray-700 leading-relaxed">
                 {plaque.locationStory.length > 300
                   ? plaque.locationStory.slice(0, 300) + '...'
                   : plaque.locationStory}
@@ -263,15 +263,15 @@ export default async function PlaquePage({ params }: Props) {
 
           {/* Key Facts */}
           {plaque.keyFacts && plaque.keyFacts.length > 0 && (
-            <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 space-y-4">
-              <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+            <div className="bg-white rounded-2xl p-6 space-y-4">
+              <h2 className="text-lg font-semibold text-gray-900">
                 Key Facts
               </h2>
               <div className="space-y-3">
                 {plaque.keyFacts.slice(0, 3).map((fact, index) => (
                   <div key={index} className="flex gap-2">
                     <span className="text-blue-500 mt-1">✓</span>
-                    <p className="text-gray-700 dark:text-gray-300 flex-1">{fact}</p>
+                    <p className="text-gray-700 flex-1">{fact}</p>
                   </div>
                 ))}
               </div>
@@ -280,20 +280,20 @@ export default async function PlaquePage({ params }: Props) {
 
           {/* Fun Facts */}
           {plaque.funFacts && plaque.funFacts.length > 0 && (
-            <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 space-y-4">
+            <div className="bg-white rounded-2xl p-6 space-y-4">
               <div className="flex items-center gap-2">
                 <span className="text-yellow-500">✨</span>
-                <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+                <h2 className="text-lg font-semibold text-gray-900">
                   Did You Know?
                 </h2>
               </div>
               <div className="space-y-3">
                 {plaque.funFacts.slice(0, 3).map((fact, index) => (
                   <div key={index} className="flex gap-2">
-                    <span className="text-yellow-600 dark:text-yellow-400 font-semibold">
+                    <span className="text-yellow-600 font-semibold">
                       {index + 1}.
                     </span>
-                    <p className="text-gray-700 dark:text-gray-300 flex-1">{fact}</p>
+                    <p className="text-gray-700 flex-1">{fact}</p>
                   </div>
                 ))}
               </div>
@@ -302,11 +302,11 @@ export default async function PlaquePage({ params }: Props) {
 
           {/* Biography */}
           {plaque.biography && (
-            <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 space-y-3">
-              <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+            <div className="bg-white rounded-2xl p-6 space-y-3">
+              <h2 className="text-lg font-semibold text-gray-900">
                 About
               </h2>
-              <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+              <p className="text-gray-700 leading-relaxed">
                 {plaque.biography.length > 400
                   ? plaque.biography.slice(0, 400) + '...'
                   : plaque.biography}
@@ -316,21 +316,21 @@ export default async function PlaquePage({ params }: Props) {
 
           {/* Address & Inscription */}
           {(plaque.addressOnly || plaque.inscriptionOnly) && (
-            <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 space-y-3">
+            <div className="bg-white rounded-2xl p-6 space-y-3">
               {plaque.addressOnly && (
                 <div>
-                  <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400 mb-1">
+                  <h3 className="text-sm font-semibold text-gray-500 mb-1">
                     Location
                   </h3>
-                  <p className="text-gray-900 dark:text-white">{plaque.addressOnly}</p>
+                  <p className="text-gray-900">{plaque.addressOnly}</p>
                 </div>
               )}
               {plaque.inscriptionOnly && (
                 <div>
-                  <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400 mb-1">
+                  <h3 className="text-sm font-semibold text-gray-500 mb-1">
                     Inscription
                   </h3>
-                  <p className="text-gray-900 dark:text-white italic">{plaque.inscriptionOnly}</p>
+                  <p className="text-gray-900 italic">{plaque.inscriptionOnly}</p>
                 </div>
               )}
             </div>

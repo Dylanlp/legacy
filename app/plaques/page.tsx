@@ -94,16 +94,16 @@ export default async function PlaquesIndexPage() {
       <div className="px-4 py-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
+          <h1 className="text-4xl font-bold text-gray-900 mb-2">
             London Blue Plaques
           </h1>
-          <p className="text-gray-600 dark:text-gray-400">
+          <p className="text-gray-600">
             Explore {plaques.length}+ blue plaques across London
           </p>
         </div>
 
         {/* Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {plaques.map((plaque) => {
             const formattedName = formatName(plaque.title)
             const lifespan = (plaque.birthYear && plaque.deathYear)
@@ -116,10 +116,10 @@ export default async function PlaquesIndexPage() {
                 href={`/plaque/${plaque.id}`}
                 className="group"
               >
-                <div className="bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all transform hover:scale-105">
+                <div className="bg-white rounded-2xl overflow-hidden transition-all transform hover:scale-105">
                   {/* Image */}
                   {(plaque.portraitImageURL || plaque.plaqueImageURL) && (
-                    <div className="aspect-square bg-gray-200 dark:bg-gray-700 relative overflow-hidden">
+                    <div className="aspect-square bg-gray-200 relative overflow-hidden">
                       <img
                         src={plaque.portraitImageURL || plaque.plaqueImageURL || ''}
                         alt={formattedName}
@@ -134,21 +134,21 @@ export default async function PlaquesIndexPage() {
 
                   {/* Content */}
                   <div className="p-4">
-                    <h3 className="font-semibold text-gray-900 dark:text-white text-lg line-clamp-2 mb-1">
+                    <h3 className="font-semibold text-gray-900 text-lg line-clamp-2 mb-1">
                       {formattedName}
                     </h3>
                     {plaque.profession && (
-                      <p className="text-sm text-blue-600 dark:text-blue-400 mb-1">
+                      <p className="text-sm text-blue-600 mb-1">
                         {plaque.profession}
                       </p>
                     )}
                     {lifespan && (
-                      <p className="text-xs text-gray-500 dark:text-gray-400">
+                      <p className="text-xs text-gray-500">
                         {lifespan}
                       </p>
                     )}
                     {plaque.addressOnly && (
-                      <p className="text-xs text-gray-600 dark:text-gray-300 mt-2 line-clamp-2">
+                      <p className="text-xs text-gray-600 mt-2 line-clamp-2">
                         {plaque.addressOnly}
                       </p>
                     )}
@@ -166,7 +166,7 @@ export default async function PlaquesIndexPage() {
               Download Legacy App
             </Link>
           </Button>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mt-4">
+          <p className="text-sm text-gray-500 mt-4">
             Explore all 2,000+ plaques on the go
           </p>
         </div>

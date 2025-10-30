@@ -3,7 +3,7 @@ import Image from 'next/image'
 
 export default function Nav() {
   return (
-    <nav className="bg-white dark:bg-gray-900">
+    <nav className="bg-white">
       <div className="px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo/Brand */}
@@ -15,7 +15,7 @@ export default function Nav() {
               height={32}
               className="rounded-lg"
             />
-            <span className="text-xl font-bold text-gray-900 dark:text-white">
+            <span className="text-xl font-bold text-gray-900">
               Legacy
             </span>
           </Link>
@@ -24,7 +24,7 @@ export default function Nav() {
           <div className="flex items-center gap-6">
             <Link
               href="/plaques"
-              className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
+              className="text-gray-600 hover:text-gray-900 transition-colors"
             >
               Plaques
             </Link>
