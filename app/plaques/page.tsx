@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import fs from 'fs'
 import path from 'path'
+import { Button } from '@/components/ui/button'
 
 type Plaque = {
   id: string
@@ -161,12 +162,11 @@ export default async function PlaquesIndexPage() {
 
         {/* Footer CTA */}
         <div className="text-center mt-12">
-          <Link
-            href="https://apps.apple.com/us/app/explore-london-legacy/id6754275366"
-            className="inline-block px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl shadow-lg transition-all transform hover:scale-105"
-          >
-            Download Legacy App
-          </Link>
+          <Button asChild size="lg">
+            <Link href="https://apps.apple.com/us/app/explore-london-legacy/id6754275366">
+              Download Legacy App
+            </Link>
+          </Button>
           <p className="text-sm text-gray-500 dark:text-gray-400 mt-4">
             Explore all 2,000+ plaques on the go
           </p>

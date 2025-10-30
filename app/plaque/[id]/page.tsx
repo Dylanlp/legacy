@@ -3,6 +3,7 @@ import Link from 'next/link'
 import fs from 'fs'
 import path from 'path'
 import WikidataPortrait from './WikidataPortrait'
+import { Button } from '@/components/ui/button'
 
 type Props = {
   params: Promise<{ id: string }>
@@ -239,12 +240,11 @@ export default async function PlaquePage({ params }: Props) {
 
           {/* Open in App CTA */}
           <div className="text-center">
-            <Link
-              href={`legacy://plaque/${id}`}
-              className="inline-block px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl shadow-lg transition-all transform hover:scale-105"
-            >
-              Open in Legacy App
-            </Link>
+            <Button asChild size="lg">
+              <Link href={`legacy://plaque/${id}`}>
+                Open in Legacy App
+              </Link>
+            </Button>
           </div>
 
           {/* Location Story */}
